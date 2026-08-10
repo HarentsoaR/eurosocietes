@@ -2,7 +2,7 @@ name: eurosocietes-prod
 
 services:
   app:
-    image: ghcr.io/harentsoar/eurosocietes:latest
+    image: harentsoa/eurosocietes:latest
     container_name: eurosocietes-prod-app
     working_dir: /var/www/html
     environment:
