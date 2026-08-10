@@ -1,0 +1,151 @@
+Pour le contenu des pages :
+
+https://france.topsocietes.com/france/auvergne-rhone-alpes/rhone/lyon/keolis-lyon/
+TOPSociétés - Agence
+Admin
+KEOLIS LYON – TOPSociétés – Agence
+KEOLIS LYON — Transports urbains et suburbains de voyageurs à Lyon.
+Viser une combinaison de données structurées + génération IA. Chaque page serait construite à partir de plusieurs sources publiques (géographiques, historiques, économiques, patrimoniales et sectorielles), puis reformulée automatiquement. Tu obtiens ainsi un contenu beaucoup plus riche, difficile à reproduire, et surtout très différent d'une simple réécriture d'une seule source.
+C’est cette approche qui permettra à EuroSocietes.com de se distinguer des annuaires classiques et d'offrir une vraie valeur éditoriale, tant pour les visiteurs que pour le référencement.
+Voici les meilleures sources.
+
+Gallica (Bibliothèque nationale de France) ⭐⭐⭐⭐⭐
+C'est probablement la meilleure source.
+Tu y trouves :
+histoires des villes
+monuments
+personnages
+traditions
+économie ancienne
+métiers
+plans anciens
+cartes postales
+guides touristiques du XIXe siècle
+journaux anciens
+Les ouvrages anciens (généralement avant 1929 en France) sont souvent dans le domaine public.
+https://gallica.bnf.fr/
+
+Archives départementales ⭐⭐⭐⭐⭐
+Chaque département possède ses archives.
+Tu y trouves :
+histoire locale
+anciennes industries
+recensements
+photos anciennes
+événements historiques
+cartes
+Exemple :
+Archives du Rhône
+https://archives.rhone.fr/
+
+Archives municipales ⭐⭐⭐⭐⭐
+Certaines villes ont des archives très riches.
+Exemple :
+Lyon
+Paris
+Bordeaux
+Marseille
+Toulouse
+Tu y trouves souvent :
+chronologies
+biographies
+bâtiments
+développement urbain
+
+Base Mérimée ⭐⭐⭐⭐⭐
+Monuments historiques.
+Très utile pour enrichir les fiches villes.
+https://www.pop.culture.gouv.fr/
+
+Base Palissy ⭐⭐⭐⭐⭐
+Objets classés :
+églises
+statues
+orgues
+vitraux
+patrimoine mobilier
+
+OpenStreetMap ⭐⭐⭐⭐⭐
+Pas pour l'histoire, mais pour :
+monuments
+quartiers
+lieux remarquables
+bâtiments
+parcs
+musées
+Très utile pour les cartes interactives.
+
+data.gouv.fr ⭐⭐⭐⭐⭐
+Des milliers de jeux de données :
+patrimoine
+démographie
+économie
+tourisme
+culture
+https://www.data.gouv.fr/
+
+INSEE ⭐⭐⭐⭐⭐
+Pour contextualiser l'histoire avec des chiffres :
+évolution de la population
+industrie
+emploi
+logements
+Page d'accueil
+POP - Plateforme Ouverte du Patrimoine
+Plateforme ouverte du patrimoine
+data.gouv.fr
+data.gouv.fr : Plateforme ouverte des données publiques françaises
+Plateforme des données publiques françaises : télécharger, partager et réutiliser les données de l'État et des collectivités
+data.gouv.fr : Plateforme ouverte des données publiques françaises
+Wikipédia ⭐⭐⭐⭐☆
+Très utile comme point de départ pour identifier des thèmes et des sources, mais il vaut mieux ne pas reprendre directement son texte. Utilise les références citées en bas des articles pour retrouver les sources originales.
+
+Géoportail ⭐⭐⭐⭐☆
+Cartes historiques :
+anciennes communes
+évolution des territoires
+cadastre
+
+Europeana ⭐⭐⭐⭐☆
+Bibliothèque européenne.
+Très riche en documents historiques.
+https://www.europeana.eu/
+
+Wikisource ⭐⭐⭐⭐☆
+Livres anciens en texte intégral.
+Excellent pour les biographies.
+
+Commons Wikimedia ⭐⭐⭐⭐☆
+Photographies libres et anciennes.
+Très utile pour illustrer les villes.
+
+Persée ⭐⭐⭐⭐⭐
+Articles universitaires.
+https://www.persee.fr/
+Très utile pour :
+histoire économique
+histoire des villes
+architecture
+patrimoine
+
+Cairn
+Pour la recherche universitaire récente (attention aux droits des articles complets).
+
+Possibilité de construire une base de connaissances en priorisant les sources suivantes :
+Gallica (livres anciens et guides historiques)
+Archives départementales et municipales
+POP Culture (Mérimée et Palissy)
+data.gouv.fr
+INSEE
+OpenStreetMap
+Persée
+Europeana
+Cette combinaison permet de produire des contenus riches, factuels et largement basés sur des sources publiques ou du domaine public, ce qui est particulièrement adapté à un projet générant un très grand nombre de pages.
+
+Attention :
+
+=> pas de copié-collé, les textes doivent être réinterprétés 
+
+=> pas d’images ni de photos
+Persée : Accéder à des milliers de publications scientifiques - ...
+Consultation et exploitation libre et gratuite de collections complètes de documents scientifiques.

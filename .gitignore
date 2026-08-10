@@ -1,0 +1,50 @@
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Local machine config
+.claude/settings.local.json
+
+# Agent tooling (local only, not part of the product)
+.claude/
+.opencode/
+.impeccable/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Laravel backend
+/backend/vendor/
+/backend/node_modules/
+/backend/public/build/
+/backend/storage/*.key
+/backend/storage/pail/
+/backend/storage/framework/cache/*
+/backend/storage/framework/sessions/*
+/backend/storage/framework/views/*
+/backend/.phpunit.result.cache
+/backend/.php-cs-fixer.cache
+
+# Node frontend
+/frontend/node_modules/
+/frontend/.next/
+/frontend/out/
+
+# WordPress
+/cms/wp-config.php
+/cms/wp-content/uploads/
+/cms/wp-content/plugins/*
+/cms/wp-content/themes/*
+
+# OpenCode skills runtime artifacts
+.opencode/node_modules/
+.opencode/skills/**/__pycache__/

@@ -1,0 +1,85 @@
+Below is a complete backlog that follows the order you gave: Architecture → DB → Import → Admin → AI → SEO → Fiche → Pages Territoriales → Métier + Ville → Abonnements → Recherche → Optimisation.
+All story points use Fibonacci (1 – 3 – 5 – 8 – 13) and are mapped to 2‑week sprint capacity of ~ 30 SP for a single developer. (If you have 3 devs, multiply the velocity accordingly.)
+
+#	Epic (Phase)	User Story / Task	Est. SP
+DB & Core API			
+1	ER Diagram & DDL	Draw ER diagram for Entreprises, Etablissements, Dirigeants, Villes…	5
+2	Migrations – core tables	entreprise, etablissement, ville, departement, region, pays	8
+3	Foreign keys + indexes	Add FK constraints and B‑Tree/GIN indexes on slug, siren, lat/lng	5
+4	Migrations – NAF & Specialities	Tables activite_naf, specialites	3
+5	Migrations – Misc (FAQ, IA, Passeport, Doc…)	faq, contenus_ia, passeports, documents, abonnements, utilisateurs, publicites	6
+6	History tables & Import logs	import_history, import_logs + soft‑delete for radiations	4
+Data‑Import Engine			
+7	INSEE fetch command	HTTP GET CSV, store raw file	5
+8	Parser + mapping to DB schema	Build parser & bulk insert with upsert	8
+9	Queue jobs for incremental import	Use Laravel Horizon/Queue	5
+10	Radiated companies handling	Soft‑delete and “re‑add” logic	3
+11	Resume after interruption	Job checkpointing + retry	4
+12	Logging & quality checks	Monolog + CSV diff reports	6
+Back‑office Admin			
+13	Install Nova (or Backpack)	CRUD scaffolding for all entities	8
+14	Roles & Permissions	spatie/laravel-permission: Admin, Editor, Enterprise, User	5
+15	UI – Toggle / Reorder blocks	Store visible, position per block in DB	6
+16	Ad‑management screen	CRUD + placement rules	4
+17	Passports & IA content screens	Edit passports, regenerate AI	5
+18	User management (CRUD + reset password)	Admin panel	5
+AI Content Generator			
+19	LLM client wrapper	OpenAI / Ollama	3
+20	Service layer for presentation, histoire, etc.	IAContentService	8
+21	CLI command to generate per company	Batch generator with queue	6
+22	Redis cache for AI results	Cache key per company & block	3
+23	QA of generated content	Unit tests + manual review	4
+SEO Generator			
+24	Slug generation logic	fr.eurosocietes/{region}/{department}/{city}/{naf}/{slug}	5
+25	Meta tags builder	From DB fields & AI text	5
+26	Schema.org JSON‑LD generator	LocalBusiness, BreadcrumbList, FAQPage …	6
+27	Sitemap generator (dynamic)	XML sitemap with priority & changefreq	5
+28	Internal linking design	Breadcrumb + contextual links	3
+Front‑end – Fiche Entreprise			
+29	Next.js page /companies/[slug]	SSR + SWR data fetching	8
+30	UI components for all blocks (info, passeport, carte)	Responsive design	10
+31	Hide/Show block from DB flags	Conditional rendering	5
+32	Leaflet map integration (OpenStreetMap)	Markers, routes	6
+33	Passeport component & CTA	Interactive badge + modal	4
+Territorial Pages			
+34	Country page template	List regions	5
+35	Region page + list of departments/cities	Pagination	6
+36	Department page + cities list	SEO slug, map preview	7
+37	City page with company list & filters	API query + pagination	8
+Métier + Ville			
+38	NAF listing page	Filter by profession	6
+39	Profession pages (Plombier, Restaurant…)	List companies in city	5
+40	Cross‑métier + ville routes	/plombier-lyon, etc.	7
+Subscription / Passeport			
+41	Stripe integration + checkout flow	Create products & subscriptions	8
+42	Coordinate validation logic	API endpoint & admin UI	6
+43	Passports & badges display	Front‑end badge icons	5
+44	Email notifications (welcome, renewal)	Mailtrap / SES	4
+Search Engine			
+45	Search API with filters (company, city, profession…)	Laravel Scout + OpenSearch	8
+46	Full‑text index on entreprises table	GIN index on name, activity, description	5
+47	Pagination & sorting in API	Page size, order by relevance	6
+48	Search results page UI	Display list + facets	7
+49	Faceted search (tags, location)	Front‑end filtering widget	4
+Optimization / Deployment			
+50	Redis caching & CDN config	Cache headers, Cloudflare pages	5
+51	Image optimization pipeline (WebP/AVIF)	Build step + Next.js image loader	4
+52	Lighthouse test & performance tuning	Reduce CLS, TTI	6
+53	CI/CD to prod (Docker‑Compose → Kubernetes)	GitHub Actions / GitLab CI	7
+54	Cloudflare configuration (SSL, WAF, caching)	Global settings	5
+55	Security hardening & rate limiting	Laravel Sanctum + Throttle	4
+Total estimated SP: ≈ 570 SP
+
+With a single developer, a capacity of ~30 SP per sprint ≈ 19 weeks.
+If you have 2 developers, that drops to ~9–10 weeks (the target).
+With 3 devs, it would be 5–6 weeks—good for parallel work on API/DB, import engine, AI, and frontend.
+
+📆 Sprint Plan (10 Weeks – 2 weeks each)
+Sprint	Focus (Epic)	Key Deliverables	Rough Effort
+Sprint 1	DB & Core API + Auth	ER diagram, migrations for core tables, Sanctum auth, basic CRUD endpoints, CI/CD pipeline.	30 SP
+Sprint 2	Import Engine + Admin Scaffold	Finish import command, queue jobs, log/quality checks; install Nova, set up roles and permissions; admin UI for core entities.	30 SP
+Sprint 3	AI & SEO Generation	LLM integration, content generation service, CLI batch generator, slug/meta/schema logic, API search endpoint stub.	30 SP
+Sprint 4	Front‑end – Fiche + Territorial Pages	Next.js /companies/[slug] page with all blocks, Leaflet map, responsive design; country/region pages and city lists.	30 SP
+Sprint 5	Métier + Ville, Subscriptions & Search + Polish	Profession pages, cross‑métier routes, Stripe flow, coordinate validation UI, search UI, final optimisations (cache, images, Lighthouse).	30 SP
+Every sprint ends with a demo to the stakeholders and a retrospective. Adjust story points based on velocity.
+

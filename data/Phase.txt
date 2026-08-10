@@ -1,0 +1,202 @@
+Début des tâches :
+
+Phase 1 – Architecture (priorité absolue)
+
+Avant toute interface graphique :
+choix de l'architecture (Laravel, Symfony, Node, etc.) ;
+création du dépôt Git ;
+environnement de développement ;
+environnement de production ;
+gestion des configurations (.env) ;
+système de logs ;
+gestion des erreurs ;
+authentification ;
+rôles (Admin, Éditeur, Entreprise, Utilisateur).
+À la fin de cette phase, le projet doit démarrer proprement.
+
+Phase 2 – Base de données
+
+Partie la plus importante 
+Concevoir la base de données complète avant d'écrire les pages.
+Tables principales :
+entreprises
+établissements
+dirigeants
+villes
+départements
+régions
+pays
+activités NAF
+spécialités
+quartiers
+monuments
+espaces verts
+FAQ
+contenus IA
+passeports
+documents
+abonnements
+utilisateurs
+publicités
+historique
+imports
+statistiques
+recherches
+Prévoir dès le départ les index SQL.
+
+Phase 3 – Import des données
+
+Avant même d'afficher une fiche.
+Créer le moteur d'import :
+import INSEE
+mises à jour
+historique
+suppression des entreprises radiées
+ajout des nouvelles entreprises
+reprise après interruption
+logs
+contrôle qualité
+C'est le cœur de la plateforme.
+
+Phase 4 – Administration
+
+Créer le back-office avant le site public.
+
+L'administrateur doit pouvoir :
+modifier une fiche
+masquer un bloc
+déplacer un bloc
+modifier les textes
+gérer les publicités
+gérer les utilisateurs
+gérer les Passeports
+gérer les contenus IA
+Sans administration, chaque évolution deviendra coûteuse.
+
+Phase 5 – Générateur IA
+
+Avant les pages publiques.
+Créer le moteur qui produit :
+présentation entreprise
+histoire
+ville
+quartier
+FAQ
+métiers
+spécialités locales
+économie
+culture
+erreurs à éviter
+Le moteur doit fonctionner indépendamment de l'affichage.
+
+Phase 6 – Générateur SEO
+
+Créer ensuite :
+URLs
+Slugs
+Meta
+Schema.org
+Sitemap
+Maillage interne
+
+Slugs : fr.eurosocietes/ région / département / ville / métier / entreprise
+Phase 7 – Fiche entreprise
+
+Seulement maintenant.
+Développer la grande fiche unique :
+coordonnées
+Passeport de confiance
+plan
+quartier
+spécialités locales
+histoire
+culture
+économie
+FAQ
+publicité
+services
+Une seule page.
+
+Phase 8 – Pages territoriales
+
+Ensuite :
+Ville
+Département
+Région
+Pays
+
+Phase 9 – Pages métiers
+
+Créer ensuite :
+Plombier
+Restaurant
+Taxi
+Dentiste
+etc.
+Phase 10 – Croisement métier + ville
+Exemple :
+Plombier Lyon
+Restaurant Nice
+Avocat Paris
+
+Phase 11 – Abonnements
+
+Créer :
+paiement
+validation coordonnées
+Passeport de confiance
+publicité
+badges
+
+Phase 12 – Recherche
+
+Moteur :
+entreprise
+ville
+métier
+département
+spécialité
+
+Phase 13 – Optimisations
+
+Enfin :
+cache
+performances
+PageSpeed
+compression
+images
+CDN
+indexation
+
+Front-end :
+
+le design final ;
+les couleurs ;
+les animations ;
+les publicités ;
+les badges ;
+les icônes.
+
+Tant que le moteur de données, l'import, l'administration et la génération IA ne sont pas solides, ces éléments sont secondaires.
+
+Le plus important (par ordre) :
+
+Architecture technique.
+Base de données.
+Moteur d'import.
+Back-office d'administration.
+Moteur IA.
+Générateur SEO.
+Fiche entreprise.
+Pages villes.
+Pages métiers.
+Croisements métier + ville.
+Abonnements et Passeport de confiance.
+Moteur de recherche.
+Optimisation et mise en production.
+
+Cet ordre limite les retours en arrière et permet de bâtir une plateforme capable de gérer, dès le départ, des millions de fiches entreprises et d'URL indexables.
+
+IA : LLM open source ou Batch OpenAI 
+
+Prod : données dédoublonnées => traitement IA => intégration sur moteur de recherche => redirection 301 => sitemaps sur Google Console => indexation
