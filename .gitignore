@@ -48,3 +48,6 @@ Thumbs.db
 # OpenCode skills runtime artifacts
 .opencode/node_modules/
 .opencode/skills/**/__pycache__/
+
+# Project docs (local only, not versioned)
+/data/
