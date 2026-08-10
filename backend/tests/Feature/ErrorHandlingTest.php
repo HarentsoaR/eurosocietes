@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class ErrorHandlingTest extends TestCase
@@ -15,6 +16,19 @@ class ErrorHandlingTest extends TestCase
 
         $response->assertStatus(404)
             ->assertJsonPath('message', 'Route introuvable.')
+            ->assertJsonMissing(['exception', 'trace']);
+    }
+
+    public function test_internal_server_error_hides_internals_in_production(): void
+    {
+        Route::get('/api/v1/tmp-boom', function () {
+            throw new RuntimeException('secret internal detail');
+        });
+
+        $response = $this->getJson('/api/v1/tmp-boom');
+
+        $response->assertStatus(500)
+            ->assertJsonPath('message', 'Une erreur interne est survenue.')
             ->assertJsonMissing(['exception', 'trace']);
     }
 
@@ -49,10 +63,26 @@ class ErrorHandlingTest extends TestCase
             ->assertHeader('X-Request-ID');
     }
 
-    public function test_client_request_id_is_echoed_back(): void
+    public function test_valid_client_request_id_is_echoed_back(): void
     {
-        $this->getJson('/api/v1/ping', ['X-Request-ID' => 'client-trace-id-42'])
+        $id = '7f4e7a2c-1b3d-4c5e-9a6f-0d8e1f2a3b4c';
+
+        $this->getJson('/api/v1/ping', ['X-Request-ID' => $id])
             ->assertStatus(200)
-            ->assertHeader('X-Request-ID', 'client-trace-id-42');
+            ->assertHeader('X-Request-ID', $id);
+    }
+
+    public function test_invalid_client_request_id_is_replaced_with_generated_uuid(): void
+    {
+        $response = $this->getJson('/api/v1/ping', ['X-Request-ID' => "malicious\ninjected"]);
+
+        $response->assertStatus(200);
+
+        $requestId = $response->headers->get('X-Request-ID');
+        $this->assertNotSame("malicious\ninjected", $requestId);
+        $this->assertMatchesRegularExpression(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i',
+            $requestId
+        );
     }
 }

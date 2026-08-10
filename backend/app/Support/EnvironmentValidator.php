@@ -5,53 +5,73 @@ namespace App\Support;
 use RuntimeException;
 
 /**
- * Validates required configuration variables at startup.
+ * Validates required configuration values at startup.
  * Fails fast with an explicit message instead of surfacing obscure errors later.
+ *
+ * Reads resolved config (not raw env) so it remains correct when the
+ * configuration cache is active (php artisan config:cache).
  */
 class EnvironmentValidator
 {
     /**
-     * Variables that must always be present with a value.
+     * Configuration keys that must always resolve to a non-empty value.
      *
      * @var list<string>
      */
     private const ALWAYS_REQUIRED = [
-        'APP_KEY',
-        'APP_ENV',
-        'APP_URL',
-        'DB_CONNECTION',
-        'DB_HOST',
-        'DB_PORT',
-        'DB_DATABASE',
-        'DB_USERNAME',
-        'DB_PASSWORD',
+        'app.key',
+        'app.env',
+        'app.url',
+        'database.default',
     ];
 
     /**
-     * Variables that must be present when running outside local development.
+     * Database connection keys that must resolve to a non-empty value.
+     *
+     * @var list<string>
+     */
+    private const DATABASE_REQUIRED = [
+        'host',
+        'port',
+        'database',
+        'username',
+        'password',
+    ];
+
+    /**
+     * Configuration keys that must resolve when running outside local development.
      *
      * @var list<string>
      */
     private const PRODUCTION_REQUIRED = [
-        'REDIS_HOST',
-        'REDIS_PORT',
+        'database.redis.default.host',
+        'database.redis.default.port',
     ];
 
     public static function validate(): void
     {
         $missing = array_filter(
             self::ALWAYS_REQUIRED,
-            static fn (string $key): bool => empty(env($key)),
+            static fn (string $key): bool => empty(config($key)),
         );
 
-        $environment = env('APP_ENV', 'production');
+        $driver = config('database.default');
+        if (is_string($driver)) {
+            $missing = array_merge(
+                $missing,
+                array_filter(
+                    self::DATABASE_REQUIRED,
+                    static fn (string $key): bool => empty(config("database.connections.{$driver}.{$key}")),
+                ),
+            );
+        }
 
-        if ($environment !== 'local') {
+        if (config('app.env') !== 'local') {
             $missing = array_merge(
                 $missing,
                 array_filter(
                     self::PRODUCTION_REQUIRED,
-                    static fn (string $key): bool => empty(env($key)),
+                    static fn (string $key): bool => empty(config($key)),
                 ),
             );
         }
@@ -60,7 +80,7 @@ class EnvironmentValidator
             $keys = implode(', ', $missing);
 
             throw new RuntimeException(
-                "Configuration incomplete. Missing required environment variables: {$keys}. "
+                "Configuration incomplete. Missing required configuration values: {$keys}. "
                 . 'Set them in your .env file before starting the application.'
             );
         }

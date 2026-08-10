@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -66,13 +65,11 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (Throwable $e) {
             if ($this->isJsonRequest()) {
-                $message = $this->isHttpException($e)
+                $message = $this->shouldShowInternalError()
                     ? $e->getMessage()
-                    : ($this->shouldShowInternalError() ? $e->getMessage() : 'Une erreur interne est survenue.');
+                    : 'Une erreur interne est survenue.';
 
-                $status = $this->isHttpException($e) ? $e->getStatusCode() : 500;
-
-                return $this->jsonError($message, $status, $e);
+                return $this->jsonError($message, 500, $e);
             }
         });
     }
@@ -85,8 +82,7 @@ class Handler extends ExceptionHandler
         $request = request();
 
         return $request->expectsJson()
-            || $request->is('api/*')
-            || $request->is('api/v1/*');
+            || $request->is('api/*');
     }
 
     /**

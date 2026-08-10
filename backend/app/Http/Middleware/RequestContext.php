@@ -19,11 +19,11 @@ class RequestContext
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $requestId = $request->header('X-Request-ID', (string) Str::uuid());
+        $requestId = $this->requestId($request);
 
         $context = [
             'request_id' => $requestId,
-            'url' => $request->fullUrl(),
+            'path' => $request->path(),
             'method' => $request->method(),
         ];
 
@@ -38,5 +38,19 @@ class RequestContext
         $response->headers->set('X-Request-ID', $requestId);
 
         return $response;
+    }
+
+    /**
+     * Resolve a request id: echo a client-supplied UUID, otherwise generate one.
+     */
+    protected function requestId(Request $request): string
+    {
+        $header = $request->header('X-Request-ID');
+
+        if (is_string($header) && preg_match('/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i', $header)) {
+            return $header;
+        }
+
+        return (string) Str::uuid();
     }
 }

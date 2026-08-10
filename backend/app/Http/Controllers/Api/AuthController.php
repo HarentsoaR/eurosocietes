@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         if (! $user || ! Hash::check($request->validated('password'), $user->password)) {
             throw ValidationException::withMessages([
-                'email' => ['Ces identifiants ne correspondent pas à nos enregistrements.'],
+                'email' => [__('auth.failed')],
             ]);
         }
 

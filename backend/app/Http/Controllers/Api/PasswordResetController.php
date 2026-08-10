@@ -3,50 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Notifications\ApiResetPasswordNotification;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
 {
     /**
      * Send a password reset token to the given email (API-appropriate, returns the token via email).
+     *
+     * Always answers with the same message to avoid leaking whether an email is registered.
      */
-    public function forgotPassword(Request $request): JsonResponse
+    public function forgotPassword(ForgotPasswordRequest $request): JsonResponse
     {
-        $request->validate(['email' => ['required', 'string', 'email']]);
-
-        $status = Password::sendResetLink(
-            $request->only('email'),
+        Password::sendResetLink(
+            ['email' => $request->validated('email')],
             function ($user, string $token) {
                 $user->notify(new ApiResetPasswordNotification($token, $user->email));
             }
         );
 
-        if ($status !== Password::RESET_LINK_SENT) {
-            throw ValidationException::withMessages([
-                'email' => [__($status)],
-            ]);
-        }
-
-        return response()->json(['message' => __($status)]);
+        return response()->json(['message' => __('passwords.sent')]);
     }
 
     /**
      * Reset the user's password using a valid token.
      */
-    public function reset(Request $request): JsonResponse
+    public function reset(ResetPasswordRequest $request): JsonResponse
     {
-        $request->validate([
-            'token' => ['required', 'string'],
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string', 'confirmed', 'min:8'],
-        ]);
-
         $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
+            $request->validated(),
             function ($user, string $password) {
                 $user->forceFill([
                     'password' => $password,
@@ -58,11 +46,11 @@ class PasswordResetController extends Controller
         );
 
         if ($status !== Password::PASSWORD_RESET) {
-            throw ValidationException::withMessages([
-                'email' => [__($status)],
-            ]);
+            return response()->json([
+                'message' => __('passwords.failed'),
+            ], 422);
         }
 
-        return response()->json(['message' => __($status)]);
+        return response()->json(['message' => __('passwords.reset')]);
     }
 }

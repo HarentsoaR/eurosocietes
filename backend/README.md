@@ -44,12 +44,14 @@ Sanctum personal access tokens. All protected routes require an `Authorization: 
 
 | Method | Route | Description |
 | --- | --- | --- |
-| `POST` | `/api/v1/register` | Create account (default role: `utilisateur`) — throttled 10/min |
-| `POST` | `/api/v1/login` | Issue a token (`device_name` optional) — throttled 5/min |
+| `POST` | `/api/v1/register` | Create account (default role: `utilisateur`) |
+| `POST` | `/api/v1/login` | Issue a token (`device_name` optional) |
 | `POST` | `/api/v1/logout` | Revoke the current token |
 | `GET` | `/api/v1/me` | Current user profile |
-| `POST` | `/api/v1/password/forgot` | Send reset link — throttled 5/min |
+| `POST` | `/api/v1/password/forgot` | Send reset link |
 | `POST` | `/api/v1/password/reset` | Reset password with token |
+
+Auth endpoints are rate-limited per account+IP (5 req/min, named limiters in `AppServiceProvider`). Sanctum tokens expire after 7 days by default (`SANCTUM_TOKEN_EXPIRATION_DAYS`).
 
 ### Example
 

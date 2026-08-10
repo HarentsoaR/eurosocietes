@@ -50,7 +50,7 @@ return [
     |
     */
 
-    'expiration' => env('SANCTUM_TOKEN_EXPIRATION_DAYS') ? (int) env('SANCTUM_TOKEN_EXPIRATION_DAYS') * 1440 : null,
+    'expiration' => (int) env('SANCTUM_TOKEN_EXPIRATION_DAYS', 7) * 1440,
 
     /*
     |--------------------------------------------------------------------------

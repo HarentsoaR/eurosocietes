@@ -6,7 +6,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
-
 class ApiResetPasswordNotification extends Notification
 {
     use Queueable;
@@ -35,10 +34,10 @@ class ApiResetPasswordNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Réinitialisation de votre mot de passe'))
-            ->line(Lang::get('Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.'))
-            ->line(Lang::get('Votre code de réinitialisation est :').' **'.$this->token.'**')
-            ->line(Lang::get('Ce lien de réinitialisation expirera dans :count minutes.', ['count' => config('auth.passwords.users.expire')]))
-            ->line(Lang::get('Si vous n\'avez pas demandé de réinitialisation de mot de passe, aucune action n\'est requise.'));
+            ->subject(Lang::get('passwords.email_subject'))
+            ->line(Lang::get('passwords.email_intro'))
+            ->line(Lang::get('passwords.email_token').' **'.$this->token.'**')
+            ->line(Lang::get('passwords.email_expires', ['count' => config('auth.passwords.users.expire')]))
+            ->line(Lang::get('passwords.email_ignore'));
     }
 }

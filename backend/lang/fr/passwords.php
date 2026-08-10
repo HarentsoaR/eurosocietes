@@ -18,5 +18,13 @@ return [
     'throttled' => 'Veuillez patienter avant de réessayer.',
     'token' => 'Ce jeton de réinitialisation du mot de passe est invalide.',
     'user' => 'Aucun utilisateur n\'a été trouvé avec cette adresse e-mail.',
+    'failed' => 'La réinitialisation du mot de passe a échoué. Vérifiez vos informations et réessayez.',
+
+    // Password reset email (notification content)
+    'email_subject' => 'Réinitialisation de votre mot de passe',
+    'email_intro' => 'Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.',
+    'email_token' => 'Votre code de réinitialisation est :',
+    'email_expires' => 'Ce code de réinitialisation expirera dans :count minutes.',
+    'email_ignore' => 'Si vous n\'avez pas demandé de réinitialisation de mot de passe, aucune action n\'est requise.',
 
 ];

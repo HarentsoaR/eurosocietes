@@ -8,19 +8,19 @@ Route::prefix('v1')->group(function (): void {
         ->name('api.ping');
 
     Route::post('register', [AuthController::class, 'register'])
-        ->middleware('throttle:10,1')
+        ->middleware('throttle:auth.register')
         ->name('api.register');
 
     Route::post('login', [AuthController::class, 'login'])
-        ->middleware('throttle:5,1')
+        ->middleware('throttle:auth.login')
         ->name('api.login');
 
     Route::post('password/forgot', [PasswordResetController::class, 'forgotPassword'])
-        ->middleware('throttle:5,1')
+        ->middleware('throttle:auth.forgot')
         ->name('api.password.forgot');
 
     Route::post('password/reset', [PasswordResetController::class, 'reset'])
-        ->middleware('throttle:5,1')
+        ->middleware('throttle:auth.reset')
         ->name('api.password.reset');
 
     Route::middleware('auth:sanctum')->group(function (): void {
