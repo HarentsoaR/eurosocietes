@@ -22,7 +22,7 @@ class ErrorHandlingTest extends TestCase
     public function test_internal_server_error_hides_internals_in_production(): void
     {
         Route::get('/api/v1/tmp-boom', function () {
-            throw new RuntimeException('secret internal detail');
+            throw new \RuntimeException('secret internal detail');
         });
 
         $response = $this->getJson('/api/v1/tmp-boom');
