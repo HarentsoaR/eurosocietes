@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PasswordResetController;
 use Illuminate\Support\Facades\Route;
-
 Route::prefix('v1')->group(function (): void {
     Route::get('ping', fn () => response()->json(['message' => 'pong']))
         ->name('api.ping');
