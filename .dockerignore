@@ -1,0 +1,54 @@
+# Never bake local secrets into the image
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Local agent/IDE tooling
+.opencode/
+.claude/
+.impeccable/
+.idea/
+.vscode/
+
+# Node / frontend (handled separately later)
+node_modules/
+frontend/
+backend/node_modules/
+backend/package-lock.json
+backend/vite.config.js
+backend/resources/css/
+backend/resources/js/
+backend/resources/views/welcome.blade.php
+
+# PHP build artifacts (rebuilt in image)
+vendor/
+backend/vendor/
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/storage/framework/testing/*
+backend/storage/pail/
+backend/public/build
+backend/.phpunit.result.cache
+backend/.php-cs-fixer.cache
+
+# Project docs (local only)
+data/
+cms/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs
+README.md
+backend/README.md
