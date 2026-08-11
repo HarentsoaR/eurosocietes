@@ -38,7 +38,7 @@ class AuthTest extends TestCase
             ->assertJsonPath('data.email', 'jean@example.com')
             ->assertJsonPath('data.roles.0.key', Role::User->value);
 
-        $this->assertDatabaseHas('users', ['email' => 'jean@example.com']);
+        $this->assertDatabaseHas('utilisateurs', ['email' => 'jean@example.com']);
         $user = User::where('email', 'jean@example.com')->firstOrFail();
         $this->assertTrue($user->hasRole(Role::User));
         $this->assertNotSame($this->credentials['password'], $user->password);

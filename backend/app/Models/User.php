@@ -16,6 +16,13 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'utilisateurs';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
