@@ -20,8 +20,7 @@ class ImportChunkJob implements ShouldQueue
         public int $importId,
         public string $type,
         public array $lignes,
-    ) {
-    }
+    ) {}
 
     public function handle(ImportService $service): void
     {
