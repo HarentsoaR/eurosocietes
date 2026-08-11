@@ -11,6 +11,7 @@
 .claude/
 .opencode/
 .impeccable/
+opencode.json
 
 # OS
 .DS_Store
