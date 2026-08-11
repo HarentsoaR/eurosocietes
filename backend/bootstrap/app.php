@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Auth\Middleware\Authenticate;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,6 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(append: [
             \App\Http\Middleware\RequestContext::class,
         ]);
+
+        // This is an API-only app: never redirect unauthenticated requests to a
+        // web "login" route (which does not exist). The JSON 401 is produced by
+        // the exception handler via isJsonRequest() (api/* paths).
+        Authenticate::redirectUsing(fn () => null);
     })
     // Required: registers the ExceptionHandler binding used during boot.
     // Custom rendering lives in App\Exceptions\Handler (bound in AppServiceProvider).

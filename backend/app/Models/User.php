@@ -23,6 +23,14 @@ class User extends Authenticatable
     protected $table = 'utilisateurs';
 
     /**
+     * Roles/permissions are stored under this single guard, so lookups stay
+     * consistent even while Sanctum briefly switches the default guard.
+     *
+     * @var string
+     */
+    protected $guard_name = 'api';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
