@@ -24,7 +24,7 @@ docker compose exec app php artisan test
 
 API: `http://localhost:8000`
 
-## Install as a dev friend (prebuilt image)
+## Install as prebuilt image
 
 Everything (Nginx + PHP-FPM + Laravel API) is baked into one image; Postgres and Redis run alongside. No PHP, Composer, or Node needed.
 
