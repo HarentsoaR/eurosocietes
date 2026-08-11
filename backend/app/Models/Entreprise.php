@@ -83,6 +83,16 @@ class Entreprise extends Model
         return $this->hasOne(Passeport::class);
     }
 
+    public function abonnements(): HasMany
+    {
+        return $this->hasMany(Abonnement::class);
+    }
+
+    public function publicites(): HasMany
+    {
+        return $this->hasMany(Publicite::class);
+    }
+
     public function scopeRecherche(Builder $query, string $terme): Builder
     {
         return $query->whereRaw('search_vector @@ plainto_tsquery(\'french\', ?)', [$terme]);
