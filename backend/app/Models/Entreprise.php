@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Entreprise extends Model
@@ -59,6 +61,26 @@ class Entreprise extends Model
     public function dirigeants(): HasMany
     {
         return $this->hasMany(Dirigeant::class);
+    }
+
+    public function faqs(): MorphMany
+    {
+        return $this->morphMany(Faq::class, 'entitable', 'entity_type', 'entity_id');
+    }
+
+    public function contenusIa(): MorphMany
+    {
+        return $this->morphMany(ContenuIa::class, 'entitable', 'entity_type', 'entity_id');
+    }
+
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'entitable', 'entity_type', 'entity_id');
+    }
+
+    public function passeport(): HasOne
+    {
+        return $this->hasOne(Passeport::class);
     }
 
     public function scopeRecherche(Builder $query, string $terme): Builder
