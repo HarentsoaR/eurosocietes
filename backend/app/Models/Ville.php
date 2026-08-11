@@ -22,4 +22,19 @@ class Ville extends Model
     {
         return $this->hasMany(VilleCodePostal::class, 'ville_id');
     }
+
+    public function quartiers(): HasMany
+    {
+        return $this->hasMany(Quartier::class);
+    }
+
+    public function monuments(): HasMany
+    {
+        return $this->hasMany(Monument::class);
+    }
+
+    public function espacesVerts(): HasMany
+    {
+        return $this->hasMany(EspaceVert::class);
+    }
 }
