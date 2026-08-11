@@ -33,6 +33,14 @@ enum Permission: string
     case ProfileView = 'profile.view';
     case ProfileUpdate = 'profile.update';
 
+    // Administration (additive, admin-only)
+    case BlocksManage = 'blocks.manage';
+    case PublicitesManage = 'publicites.manage';
+    case PasseportsValidate = 'passeports.validate';
+    case AbonnementsManage = 'abonnements.manage';
+    case HistoriqueView = 'historique.view';
+    case UtilisateursManage = 'utilisateurs.manage';
+
     /**
      * All permissions granted to a role. Returns the role's full permission set.
      *
