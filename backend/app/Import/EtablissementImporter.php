@@ -23,6 +23,7 @@ class EtablissementImporter
             'siren' => trim($ligne['siren'] ?? ''),
             'siret' => $siret,
             'nic' => substr($siret, -5),
+            'slug' => Slugger::faire($this->baseSlug($ligne), $siret),
             'est_siege' => strtolower(trim($ligne['etablissementSiege'] ?? '')) === 'true',
             'etat_administratif' => trim($ligne['etatAdministratifEtablissement'] ?? 'A'),
             'activite_naf' => $this->nullSiVide($ligne['activitePrincipaleEtablissement'] ?? ''),
@@ -35,6 +36,13 @@ class EtablissementImporter
             'libelle_commune' => $this->nullSiVide($ligne['libelleCommuneEtablissement'] ?? ''),
             'code_insee' => $this->nullSiVide($ligne['codeCommuneEtablissement'] ?? ''),
         ];
+    }
+
+    private function baseSlug(array $ligne): string
+    {
+        $enseigne = trim($ligne['enseigne1Etablissement'] ?? '');
+
+        return $enseigne !== '' ? $enseigne : trim($ligne['siret'] ?? '');
     }
 
     private function nullSiVide(string $valeur): ?string

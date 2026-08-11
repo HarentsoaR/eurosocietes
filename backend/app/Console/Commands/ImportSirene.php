@@ -12,7 +12,6 @@ class ImportSirene extends Command
     protected $signature = 'import:sirene
         {--type=unites : unites|etablissements}
         {--file= : Chemin du fichier CSV INSEE}
-        {--diff : Import incrémental (fichier de différences)}
         {--resume : Reprendre l\'import partiel précédent du même type}
         {--taille-lot=2000 : Nombre de lignes par lot}';
 
@@ -46,10 +45,12 @@ class ImportSirene extends Command
 
         $dernierOffset = $this->option('resume') ? ($import->resume_state['dernier_offset'] ?? 0) : 0;
         $offset = 0;
+        $dispache = false;
 
         foreach ($reader->lireLots($chemin, $tailleLot) as $lot) {
             if ($offset >= $dernierOffset) {
                 ImportChunkJob::dispatch($import->id, $type, $lot);
+                $dispache = true;
                 $offset += count($lot);
 
                 continue;
@@ -60,7 +61,13 @@ class ImportSirene extends Command
 
             if ($aGarder !== []) {
                 ImportChunkJob::dispatch($import->id, $type, $aGarder);
+                $dispache = true;
             }
+        }
+
+        // Rien à traiter (reprise déjà complète) : on bascule immédiatement en terminé.
+        if (! $dispache && $import->lignes_total !== null && $import->lignes_traitees >= $import->lignes_total) {
+            $import->update(['statut' => 'completed', 'completed_at' => now()]);
         }
 
         $this->info("Import planifié : {$import->id} ({$type})");

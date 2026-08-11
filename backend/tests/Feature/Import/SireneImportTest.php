@@ -88,4 +88,42 @@ class SireneImportTest extends TestCase
         $this->assertSame('C', $radiee->etat_administratif);
         $this->assertNotNull($radiee->deleted_at);
     }
+
+    public function test_radiee_puis_reactivation_restaure_l_entreprise(): void
+    {
+        $ligne = ['siren' => '356000018', 'denominationUniteLegale' => 'Boulangerie Pierre', 'nomUniteLegale' => '', 'prenom1UniteLegale' => '', 'etatAdministratifUniteLegale' => 'A', 'activitePrincipaleUniteLegale' => '56.10A', 'codePostalUniteLegale' => '69002', 'libelleCommuneUniteLegale' => 'Lyon', 'codeCommuneUniteLegale' => '69123'];
+
+        $this->importeLignes([$ligne]);
+
+        $ligne['etatAdministratifUniteLegale'] = 'C';
+        $this->importeLignes([$ligne]);
+
+        $this->assertSame(0, Entreprise::count());
+        $this->assertSame(1, Entreprise::withTrashed()->count());
+
+        $ligne['etatAdministratifUniteLegale'] = 'A';
+        $stats = $this->importeLignes([$ligne]);
+
+        $this->assertSame(0, $stats['inserees']);
+        $this->assertSame(1, $stats['maj']);
+
+        $this->assertSame(1, Entreprise::count());
+        $restauree = Entreprise::where('siren', '356000018')->first();
+        $this->assertNotNull($restauree);
+        $this->assertSame('A', $restauree->etat_administratif);
+        $this->assertNull($restauree->deleted_at);
+    }
+
+    public function test_import_cree_un_slug_unique(): void
+    {
+        $lignes = [
+            ['siren' => '356000000', 'denominationUniteLegale' => 'Boulangerie Paul', 'nomUniteLegale' => '', 'prenom1UniteLegale' => '', 'etatAdministratifUniteLegale' => 'A', 'activitePrincipaleUniteLegale' => '56.10A', 'codePostalUniteLegale' => '69001', 'libelleCommuneUniteLegale' => 'Lyon', 'codeCommuneUniteLegale' => '69123'],
+            ['siren' => '356000018', 'denominationUniteLegale' => 'Boulangerie Paul', 'nomUniteLegale' => '', 'prenom1UniteLegale' => '', 'etatAdministratifUniteLegale' => 'A', 'activitePrincipaleUniteLegale' => '56.10A', 'codePostalUniteLegale' => '69002', 'libelleCommuneUniteLegale' => 'Lyon', 'codeCommuneUniteLegale' => '69123'],
+        ];
+
+        $this->importeLignes($lignes);
+
+        $this->assertSame('boulangerie-paul-356000000', Entreprise::where('siren', '356000000')->first()->slug);
+        $this->assertSame('boulangerie-paul-356000018', Entreprise::where('siren', '356000018')->first()->slug);
+    }
 }

@@ -16,13 +16,20 @@ class ImportCog extends Command
     public function handle(CogImporter $importer): int
     {
         $communes = $this->option('communes');
-        if (! $communes) {
-            $this->error('Option --communes obligatoire.');
+        if (! $communes || ! is_file($communes)) {
+            $this->error('Option --communes obligatoire et doit pointer vers un CSV existant.');
 
             return self::FAILURE;
         }
 
-        $stats = $importer->importer($communes, $this->option('geofla'));
+        $geofla = $this->option('geofla');
+        if ($geofla && ! is_file($geofla)) {
+            $this->error('Option --geofla doit pointer vers un CSV existant.');
+
+            return self::FAILURE;
+        }
+
+        $stats = $importer->importer($communes, $geofla);
 
         $this->info(sprintf(
             'Communes importées : %d créées, %d mises à jour.',

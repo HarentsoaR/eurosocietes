@@ -6,6 +6,7 @@ use App\Import\ImportService;
 use App\Models\Import;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\DB;
 
 class ImportChunkJob implements ShouldQueue
 {
@@ -30,15 +31,19 @@ class ImportChunkJob implements ShouldQueue
             ? $service->importerUnites($this->lignes, $import)
             : $service->importerEtablissements($this->lignes, $import);
 
-        $import->increment('lignes_traitees', count($this->lignes));
-        $import->increment('lignes_inserees', $stats['inserees']);
-        $import->increment('lignes_maj', $stats['maj']);
-        $import->increment('lignes_radiees', $stats['radiees']);
-        $import->increment('lignes_erreur', $stats['erreurs']);
-        $import->update(['resume_state' => ['dernier_offset' => $import->lignes_traitees]]);
+        DB::transaction(function () use ($import, $stats): void {
+            $verrou = Import::whereKey($import->id)->lockForUpdate()->firstOrFail();
 
-        if ($import->lignes_total !== null && $import->lignes_traitees >= $import->lignes_total) {
-            $import->update(['statut' => 'completed', 'completed_at' => now()]);
-        }
+            $verrou->increment('lignes_traitees', count($this->lignes));
+            $verrou->increment('lignes_inserees', $stats['inserees']);
+            $verrou->increment('lignes_maj', $stats['maj']);
+            $verrou->increment('lignes_radiees', $stats['radiees']);
+            $verrou->increment('lignes_erreur', $stats['erreurs']);
+            $verrou->update(['resume_state' => ['dernier_offset' => $verrou->lignes_traitees]]);
+
+            if ($verrou->lignes_total !== null && $verrou->lignes_traitees >= $verrou->lignes_total) {
+                $verrou->update(['statut' => 'completed', 'completed_at' => now()]);
+            }
+        });
     }
 }

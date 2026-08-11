@@ -61,6 +61,7 @@ class ImportService
 
             $upsert[] = [
                 'siren' => $mappe['siren'],
+                'slug' => $mappe['slug'],
                 'denomination' => $mappe['denomination'],
                 'nom' => $mappe['nom'],
                 'prenoms' => $mappe['prenoms'],
@@ -102,7 +103,7 @@ class ImportService
         Entreprise::query()->upsert(
             $lignes,
             ['siren'],
-            ['denomination', 'nom', 'prenoms', 'sigle', 'categorie_juridique', 'categorie_entreprise',
+            ['slug', 'denomination', 'nom', 'prenoms', 'sigle', 'categorie_juridique', 'categorie_entreprise',
                 'tranche_effectifs', 'annee_effectifs', 'caractere_employeur', 'etat_administratif',
                 'date_creation', 'date_debut_activite', 'activite_naf_id', 'ville_id',
                 'adresse_complete', 'visible', 'updated_at', 'deleted_at',
@@ -164,6 +165,7 @@ class ImportService
             $upsert[] = [
                 'siret' => $mappe['siret'],
                 'nic' => $mappe['nic'],
+                'slug' => $mappe['slug'],
                 'entreprise_id' => $entrepriseId,
                 'est_siege' => $mappe['est_siege'],
                 'etat_administratif' => 'A',
@@ -200,7 +202,7 @@ class ImportService
         Etablissement::query()->upsert(
             $lignes,
             ['siret'],
-            ['nic', 'entreprise_id', 'est_siege', 'etat_administratif', 'activite_naf_id',
+            ['nic', 'slug', 'entreprise_id', 'est_siege', 'etat_administratif', 'activite_naf_id',
                 'numero_voie', 'type_voie', 'libelle_voie', 'complement_adresse', 'code_postal',
                 'ville_id', 'libelle_commune', 'updated_at', 'deleted_at',
             ]
@@ -248,6 +250,7 @@ class ImportService
         if ($entreprise === null) {
             $entreprise = Entreprise::create([
                 'siren' => $siren,
+                'slug' => $mappe['slug'],
                 'denomination' => $mappe['denomination'],
                 'nom' => $mappe['nom'],
                 'prenoms' => $mappe['prenoms'],

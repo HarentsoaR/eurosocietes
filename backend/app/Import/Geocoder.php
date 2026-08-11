@@ -28,9 +28,6 @@ class Geocoder
         return [(float) $ligne->lat, (float) $ligne->lng];
     }
 
-    /**
-     * Copie les coordonnées de la commune vers l'entreprise et/ou l'établissement (fallback).
-     */
     public function appliquerFallback(int $villeId, ?int $entrepriseId = null, ?int $etablissementId = null): void
     {
         $coordonnees = $this->coordonneesCommune($villeId);
@@ -38,6 +35,14 @@ class Geocoder
             return;
         }
 
+        $this->appliquerCoordonnees($coordonnees, $entrepriseId, $etablissementId);
+    }
+
+    /**
+     * @param  array{0: float, 1: float}  $coordonnees
+     */
+    private function appliquerCoordonnees(array $coordonnees, ?int $entrepriseId = null, ?int $etablissementId = null): void
+    {
         [$lat, $lng] = $coordonnees;
 
         if ($entrepriseId !== null) {
@@ -55,21 +60,31 @@ class Geocoder
         }
     }
 
-    /**
-     * Applique le fallback commune sur tous les sièges d'entreprise non géolocalisés.
-     */
     public function appliquerFallbackMassif(int $tailleLot = 1000): int
     {
         $traites = 0;
+        $coordonneesMemo = [];
+
+        $traiter = function (int $villeId, ?int $entrepriseId = null, ?int $etablissementId = null) use (&$traites, &$coordonneesMemo): void {
+            if (! array_key_exists($villeId, $coordonneesMemo)) {
+                $coordonneesMemo[$villeId] = $this->coordonneesCommune($villeId);
+            }
+
+            if ($coordonneesMemo[$villeId] === null) {
+                return;
+            }
+
+            $this->appliquerCoordonnees($coordonneesMemo[$villeId], $entrepriseId, $etablissementId);
+            $traites++;
+        };
 
         Entreprise::query()
             ->whereNotNull('ville_id')
             ->whereNull('latlng')
             ->orderBy('id')
-            ->chunkById($tailleLot, function ($entreprises) use (&$traites) {
+            ->chunkById($tailleLot, function ($entreprises) use ($traiter) {
                 foreach ($entreprises as $entreprise) {
-                    $this->appliquerFallback($entreprise->ville_id, entrepriseId: $entreprise->id);
-                    $traites++;
+                    $traiter($entreprise->ville_id, entrepriseId: $entreprise->id);
                 }
             });
 
@@ -77,10 +92,9 @@ class Geocoder
             ->whereNotNull('ville_id')
             ->whereNull('latlng')
             ->orderBy('id')
-            ->chunkById($tailleLot, function ($etablissements) use (&$traites) {
+            ->chunkById($tailleLot, function ($etablissements) use ($traiter) {
                 foreach ($etablissements as $etablissement) {
-                    $this->appliquerFallback($etablissement->ville_id, etablissementId: $etablissement->id);
-                    $traites++;
+                    $traiter($etablissement->ville_id, etablissementId: $etablissement->id);
                 }
             });
 

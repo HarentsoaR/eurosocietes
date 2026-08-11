@@ -27,6 +27,7 @@ class SireneImporter
 
         return [
             'siren' => $siren,
+            'slug' => Slugger::faire($this->baseSlug($ligne), $siren),
             'denomination' => $this->nullSiVide($ligne['denominationUniteLegale'] ?? ''),
             'nom' => $this->nullSiVide($ligne['nomUniteLegale'] ?? ''),
             'prenoms' => $this->nullSiVide($ligne['prenom1UniteLegale'] ?? ''),
@@ -45,6 +46,16 @@ class SireneImporter
             'code_insee' => $this->nullSiVide($ligne['codeCommuneUniteLegale'] ?? ''),
             'adresse_complete' => $this->adresseComplete($ligne),
         ];
+    }
+
+    private function baseSlug(array $ligne): string
+    {
+        $denomination = trim($ligne['denominationUniteLegale'] ?? '');
+        if ($denomination !== '') {
+            return $denomination;
+        }
+
+        return trim(($ligne['nomUniteLegale'] ?? '').' '.($ligne['prenom1UniteLegale'] ?? ''));
     }
 
     private function adresseComplete(array $ligne): ?string
@@ -81,7 +92,12 @@ class SireneImporter
 
     private function intOuNull(string $valeur): ?int
     {
-        return $valeur !== '' ? (int) $valeur : null;
+        $valeur = trim($valeur);
+        if ($valeur === '' || ! ctype_digit($valeur)) {
+            return null;
+        }
+
+        return (int) $valeur;
     }
 
     private function ouiOuNull(string $valeur): ?bool

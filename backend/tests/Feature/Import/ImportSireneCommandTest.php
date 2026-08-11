@@ -67,4 +67,28 @@ class ImportSireneCommandTest extends TestCase
         $this->assertSame(2, $interrompu->fresh()->lignes_inserees);
         $this->assertSame('completed', $interrompu->fresh()->statut);
     }
+
+    public function test_reprise_deja_complete_bascule_immediatement_en_terminé(): void
+    {
+        $chemin = dirname(__DIR__, 2).'/fixtures/unites_test.csv';
+
+        $complet = Import::create([
+            'type' => 'sirene_unites',
+            'statut' => 'partial',
+            'lignes_total' => 3,
+            'lignes_traitees' => 3,
+            'lignes_inserees' => 2,
+            'lignes_radiees' => 1,
+            'resume_state' => ['dernier_offset' => 3],
+        ]);
+        Entreprise::create(['siren' => '356000000', 'denomination' => 'Boulangerie Paul', 'slug' => 'boulangerie-paul-356000000', 'etat_administratif' => 'A', 'visible' => true]);
+        Entreprise::create(['siren' => '356000018', 'denomination' => 'Boulangerie Pierre', 'slug' => 'boulangerie-pierre-356000018', 'etat_administratif' => 'A', 'visible' => true]);
+
+        $this->artisan('import:sirene', ['--type' => 'unites', '--file' => $chemin, '--resume' => true, '--taille-lot' => 2])
+            ->assertSuccessful();
+
+        $this->assertSame(2, Entreprise::count());
+        $this->assertSame('completed', $complet->fresh()->statut);
+        $this->assertNotNull($complet->fresh()->completed_at);
+    }
 }

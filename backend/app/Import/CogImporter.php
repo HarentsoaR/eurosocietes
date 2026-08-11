@@ -34,17 +34,18 @@ class CogImporter
                         continue;
                     }
 
-                    $ville = Ville::where('code_insee', $codeInsee)->first();
-                    if ($ville === null) {
+                    $villeId = $codesExistants[$codeInsee] ?? null;
+                    if ($villeId === null) {
                         $ville = Ville::create([
                             'code_insee' => $codeInsee,
                             'libelle' => trim($ligne['libelle']),
-                            'slug' => $this->slugifier(trim($ligne['libelle']), $codeInsee),
+                            'slug' => Slugger::faire(trim($ligne['libelle']), $codeInsee),
                             'departement_id' => $departement->id,
                         ]);
                         $codesExistants[$codeInsee] = $ville->id;
                         $stats['villes_inserees']++;
                     } else {
+                        $ville = Ville::find($villeId);
                         $stats['villes_maj']++;
                     }
 
@@ -87,12 +88,5 @@ class CogImporter
         }
 
         return $geo;
-    }
-
-    private function slugifier(string $libelle, string $suffixe): string
-    {
-        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9]+/', '-', $libelle), '-'));
-
-        return $slug !== '' ? $slug.'-'.$suffixe : $suffixe;
     }
 }

@@ -8,11 +8,11 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command('import:sirene --type=unites --diff --file=/var/www/html/storage/app/imports/unites_diff.csv')
+Schedule::command('import:sirene --type=unites --file=/var/www/html/storage/app/imports/unites_diff.csv')
     ->dailyAt('02:00')
     ->withoutOverlapping();
 
-Schedule::command('import:sirene --type=etablissements --diff --file=/var/www/html/storage/app/imports/etablissements_diff.csv')
+Schedule::command('import:sirene --type=etablissements --file=/var/www/html/storage/app/imports/etablissements_diff.csv')
     ->dailyAt('03:00')
     ->withoutOverlapping();
 
