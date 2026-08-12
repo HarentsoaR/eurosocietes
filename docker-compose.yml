@@ -7,9 +7,10 @@ services:
       dockerfile: docker/php/Dockerfile
     image: eurosocietes/php:8.4
     container_name: eurosocietes-app
-    working_dir: /var/www/html
-    entrypoint: eurosocietes-app
+    # FIX: Removed incorrect entrypoint: eurosocietes-app
+    # The Dockerfile's ENTRYPOINT ["docker-entrypoint"] will be used
     command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+    working_dir: /var/www/html
     volumes:
       - ./backend:/var/www/html
     environment:

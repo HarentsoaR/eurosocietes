@@ -4,9 +4,10 @@ services:
   app:
     image: harentsoa/eurosocietes:latest
     container_name: eurosocietes-prod-app
-    working_dir: /var/www/html
-    entrypoint: eurosocietes-prod-app
+    # FIX: Removed incorrect entrypoint override
+    # The Dockerfile's ENTRYPOINT ["docker-entrypoint"] will be used
     command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+    working_dir: /var/www/html
     environment:
       APP_NAME: "EuroSocietes"
       APP_ENV: production
