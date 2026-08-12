@@ -5,6 +5,8 @@ services:
     image: harentsoa/eurosocietes:latest
     container_name: eurosocietes-prod-app
     working_dir: /var/www/html
+    entrypoint: eurosocietes-prod-app
+    command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
     environment:
       APP_NAME: "EuroSocietes"
       APP_ENV: production

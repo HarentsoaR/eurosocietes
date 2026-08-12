@@ -8,6 +8,8 @@ services:
     image: eurosocietes/php:8.4
     container_name: eurosocietes-app
     working_dir: /var/www/html
+    entrypoint: eurosocietes-app
+    command: ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
     volumes:
       - ./backend:/var/www/html
     environment:
