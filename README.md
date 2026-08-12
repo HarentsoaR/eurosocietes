@@ -29,7 +29,7 @@ API: `http://localhost:8000`
 Everything (Nginx + PHP-FPM + Laravel API) is baked into one image; Postgres and Redis run alongside. No PHP, Composer, or Node needed.
 
 ```bash
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prodhow .yml up -d
 ```
 
 - API: `http://localhost:8000`

@@ -88,7 +88,7 @@ class EntrepriseController extends Controller
     public function sections(Entreprise $entreprise): \Illuminate\Http\JsonResponse
     {
         return response()->json([
-            'data' => collect($entreprise->sections())->map(function (array $item) => (new SectionResource($item))->resolve())->all(),
+            'data' => collect($entreprise->sections())->map(fn (array $item) => (new SectionResource($item))->resolve())->all(),
         ]);
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\EntrepriseController;
 use App\Http\Controllers\Api\PasswordResetController;
+use App\Http\Controllers\Api\ReferentielController;
 use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::get('ping', fn () => response()->json(['message' => 'pong']))
