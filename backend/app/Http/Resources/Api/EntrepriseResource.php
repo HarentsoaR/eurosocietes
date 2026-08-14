@@ -28,8 +28,8 @@ class EntrepriseResource extends ApiResource
             'slug' => $this->slug,
             'visible' => (bool) $this->getRawOriginal('visible'),
             'allow_public_contacts' => (bool) $this->allow_public_contacts,
-            'etablissements' => \App\Http\Resources\Api\EtablissementResource::collection($this->whenLoaded('etablissements')),
-            'dirigeants' => \App\Http\Resources\Api\DirigeantResource::collection($this->whenLoaded('dirigeants')),
+            'etablissements' => EtablissementResource::collection($this->whenLoaded('etablissements')),
+            'dirigeants' => DirigeantResource::collection($this->whenLoaded('dirigeants')),
         ];
     }
 }

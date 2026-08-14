@@ -9,6 +9,7 @@ use App\Models\Etablissement;
 use App\Models\Pays;
 use App\Models\Region;
 use App\Models\Ville;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -59,7 +60,7 @@ class EtablissementDirigeantTest extends TestCase
 
     public function test_siret_mal_forme_rejete(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         Etablissement::create([
             'siret' => '123',

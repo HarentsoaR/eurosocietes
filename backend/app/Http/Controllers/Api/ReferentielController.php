@@ -19,6 +19,7 @@ use App\Models\Ville;
 use App\Models\VilleCodePostal;
 use App\Support\ApiQuery;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class ReferentielController extends Controller
 {
@@ -54,7 +55,7 @@ class ReferentielController extends Controller
     public function regions(Pays $pays): ApiResourceCollection
     {
         return new ApiResourceCollection(
-            ApiQuery::paginate($pays->regions()->orderBy('libelle')),
+            ApiQuery::paginate($pays->regions()->getQuery()->orderBy('libelle')),
             RegionResource::class
         );
     }
@@ -62,7 +63,7 @@ class ReferentielController extends Controller
     public function departements(Region $region): ApiResourceCollection
     {
         return new ApiResourceCollection(
-            ApiQuery::paginate($region->departements()->orderBy('libelle')),
+            ApiQuery::paginate($region->departements()->getQuery()->orderBy('libelle')),
             DepartementResource::class
         );
     }
@@ -88,7 +89,7 @@ class ReferentielController extends Controller
         );
     }
 
-    public function villesSearch(\Illuminate\Http\Request $request): ApiResourceCollection
+    public function villesSearch(Request $request): ApiResourceCollection
     {
         return new ApiResourceCollection(
             ApiQuery::paginate($this->villesQuery($request, null)),
@@ -96,7 +97,7 @@ class ReferentielController extends Controller
         );
     }
 
-    private function villesQuery(\Illuminate\Http\Request $request, ?int $departementId): Builder
+    private function villesQuery(Request $request, ?int $departementId): Builder
     {
         $query = Ville::query()->orderBy('libelle');
 

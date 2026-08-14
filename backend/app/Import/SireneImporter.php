@@ -4,9 +4,7 @@ namespace App\Import;
 
 class SireneImporter
 {
-    public function __construct(private QualityChecker $qualite = new QualityChecker())
-    {
-    }
+    public function __construct(private QualityChecker $qualite = new QualityChecker) {}
 
     /**
      * Mappe une ligne INSEE (unité légale) vers les colonnes entreprises.

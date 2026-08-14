@@ -38,7 +38,7 @@ class EtablissementImportTest extends TestCase
     public function test_importe_les_etablissements(): void
     {
         $import = Import::create(['type' => 'sirene_etablissements', 'statut' => 'processing']);
-        $service = new ImportService();
+        $service = new ImportService;
 
         $lignes = [
             ['siren' => '356000000', 'siret' => '35600000000006', 'etablissementSiege' => 'true', 'etatAdministratifEtablissement' => 'A', 'activitePrincipaleEtablissement' => '56.10A', 'enseigne1Etablissement' => 'Boulangerie Paul', 'codePostalEtablissement' => '69001', 'libelleCommuneEtablissement' => 'Lyon', 'codeCommuneEtablissement' => '69123'],

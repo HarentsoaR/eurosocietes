@@ -12,7 +12,7 @@ class QualityCheckerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->checker = new QualityChecker();
+        $this->checker = new QualityChecker;
     }
 
     public function test_siren_valide(): void

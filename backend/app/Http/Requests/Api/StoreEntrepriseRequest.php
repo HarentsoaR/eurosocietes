@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Enums\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreEntrepriseRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()?->hasPermissionTo(\App\Enums\Permission::CompanyCreate->value) ?? false;
+        return $this->user()?->hasPermissionTo(Permission::CompanyCreate->value) ?? false;
     }
 
     public function rules(): array

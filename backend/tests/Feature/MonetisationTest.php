@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Abonnement;
 use App\Models\Entreprise;
 use App\Models\Publicite;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -35,7 +36,7 @@ class MonetisationTest extends TestCase
 
     public function test_abonnement_dates_incoherentes_rejete(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         Abonnement::create([
             'entreprise_id' => $this->entreprise()->id,

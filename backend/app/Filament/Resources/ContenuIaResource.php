@@ -24,6 +24,8 @@ class ContenuIaResource extends Resource
 
     protected static ?string $navigationLabel = 'Contenus IA';
 
+    protected static ?string $navigationGroup = 'Contenus';
+
     protected static ?string $modelLabel = 'contenu IA';
 
     protected static ?string $pluralModelLabel = 'contenus IA';

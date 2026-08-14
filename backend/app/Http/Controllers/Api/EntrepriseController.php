@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\Permission;
 use App\Http\Requests\Api\StoreEntrepriseRequest;
 use App\Http\Requests\Api\UpdateEntrepriseRequest;
 use App\Http\Resources\Api\ApiResourceCollection;
@@ -10,8 +11,8 @@ use App\Http\Resources\Api\EntrepriseResource;
 use App\Http\Resources\Api\EtablissementResource;
 use App\Http\Resources\Api\SectionResource;
 use App\Models\Entreprise;
+use App\Support\ApiQuery;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class EntrepriseController extends Controller
 {
@@ -34,13 +35,17 @@ class EntrepriseController extends Controller
         }
 
         return new ApiResourceCollection(
-            \App\Support\ApiQuery::paginate($query),
+            ApiQuery::paginate($query),
             EntrepriseResource::class
         );
     }
 
     public function show(Entreprise $entreprise): EntrepriseResource
     {
+        if (! $entreprise->getRawOriginal('visible')) {
+            abort_unless(auth('sanctum')->user()?->hasPermissionTo(Permission::CompanyView->value), 404);
+        }
+
         $entreprise->load(['etablissements', 'dirigeants']);
 
         return new EntrepriseResource($entreprise);
@@ -72,7 +77,7 @@ class EntrepriseController extends Controller
     public function etablissements(Entreprise $entreprise): ApiResourceCollection
     {
         return new ApiResourceCollection(
-            \App\Support\ApiQuery::paginate($entreprise->etablissements()->orderBy('est_siege', 'desc')),
+            ApiQuery::paginate($entreprise->etablissements()->getQuery()->orderBy('est_siege', 'desc')),
             EtablissementResource::class
         );
     }
@@ -80,12 +85,12 @@ class EntrepriseController extends Controller
     public function dirigeants(Entreprise $entreprise): ApiResourceCollection
     {
         return new ApiResourceCollection(
-            \App\Support\ApiQuery::paginate($entreprise->dirigeants()->orderBy('est_principal', 'desc')),
+            ApiQuery::paginate($entreprise->dirigeants()->getQuery()->orderBy('est_principal', 'desc')),
             DirigeantResource::class
         );
     }
 
-    public function sections(Entreprise $entreprise): \Illuminate\Http\JsonResponse
+    public function sections(Entreprise $entreprise): JsonResponse
     {
         return response()->json([
             'data' => collect($entreprise->sections())->map(fn (array $item) => (new SectionResource($item))->resolve())->all(),

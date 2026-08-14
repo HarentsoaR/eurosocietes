@@ -12,7 +12,7 @@ class GeocoderTest extends TestCase
 
     public function test_coordonnees_commune_sans_ville_retourne_null(): void
     {
-        $geocoder = new Geocoder();
+        $geocoder = new Geocoder;
         $this->assertNull($geocoder->coordonneesCommune(999999));
     }
 }

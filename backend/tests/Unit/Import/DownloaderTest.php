@@ -18,7 +18,7 @@ class DownloaderTest extends TestCase
             'insee.example/stock.csv' => Http::response("a;b\n1;2\n"),
         ]);
 
-        $downloader = new Downloader();
+        $downloader = new Downloader;
         $chemin = $downloader->telecharger('https://insee.example/stock.csv', 'sirene/unites.csv');
 
         Storage::disk('imports')->assertExists($chemin);
@@ -29,9 +29,9 @@ class DownloaderTest extends TestCase
     {
         Storage::fake('imports');
 
-        Http::fake(fn () => throw new ConnectionException());
+        Http::fake(fn () => throw new ConnectionException);
 
-        $downloader = new Downloader();
+        $downloader = new Downloader;
 
         $this->expectException(ConnectionException::class);
         $downloader->telecharger('https://insee.example/absent.csv', 'sirene/absent.csv');

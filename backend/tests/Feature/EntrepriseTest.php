@@ -9,6 +9,7 @@ use App\Models\Pays;
 use App\Models\Region;
 use App\Models\Specialite;
 use App\Models\Ville;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -75,7 +76,7 @@ class EntrepriseTest extends TestCase
 
     public function test_siren_mal_forme_rejete(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         Entreprise::create(['siren' => 'ABC', 'denomination' => 'Test', 'slug' => 'test', 'etat_administratif' => 'A']);
     }

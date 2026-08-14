@@ -21,6 +21,8 @@ class DocumentResource extends Resource
 
     protected static ?string $navigationLabel = 'Documents';
 
+    protected static ?string $navigationGroup = 'Contenus';
+
     protected static ?string $modelLabel = 'document';
 
     protected static ?string $pluralModelLabel = 'documents';

@@ -19,6 +19,8 @@ class EntrepriseResource extends Resource
 
     protected static ?string $navigationLabel = 'Fiches entreprises';
 
+    protected static ?string $navigationGroup = 'Entreprises';
+
     protected static ?string $modelLabel = 'fiche entreprise';
 
     protected static ?string $pluralModelLabel = 'fiches entreprises';

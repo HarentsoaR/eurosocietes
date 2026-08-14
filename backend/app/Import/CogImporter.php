@@ -12,7 +12,7 @@ class CogImporter
 
     public function __construct(?CsvReader $reader = null)
     {
-        $this->reader = $reader ?? new CsvReader();
+        $this->reader = $reader ?? new CsvReader;
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Models\Pays;
 use App\Models\Quartier;
 use App\Models\Region;
 use App\Models\Ville;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -44,7 +45,7 @@ class TerritoireTest extends TestCase
         $ville = $this->ville();
         Quartier::create(['ville_id' => $ville->id, 'libelle' => 'Presqu\'île', 'slug' => 'presqu-ile', 'description' => null]);
 
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         Quartier::create(['ville_id' => $ville->id, 'libelle' => 'Autre', 'slug' => 'presqu-ile', 'description' => null]);
     }
 }

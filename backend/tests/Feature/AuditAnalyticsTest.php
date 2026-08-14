@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Models\Entreprise;
 use App\Models\Historique;
 use App\Models\Import;
-use App\Models\ImportLog;
 use App\Models\Recherche;
 use App\Models\Statistique;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -52,7 +52,7 @@ class AuditAnalyticsTest extends TestCase
     {
         Statistique::create(['type' => 'vue_entreprise', 'entity_type' => Entreprise::class, 'entity_id' => 1, 'periode' => '2026-08-01', 'compteur' => 5]);
 
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         Statistique::create(['type' => 'vue_entreprise', 'entity_type' => Entreprise::class, 'entity_id' => 1, 'periode' => '2026-08-01', 'compteur' => 6]);
     }
 

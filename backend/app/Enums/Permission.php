@@ -40,6 +40,7 @@ enum Permission: string
     case AbonnementsManage = 'abonnements.manage';
     case HistoriqueView = 'historique.view';
     case UtilisateursManage = 'utilisateurs.manage';
+    case StatistiquesView = 'statistiques.view';
 
     /**
      * All permissions granted to a role. Returns the role's full permission set.

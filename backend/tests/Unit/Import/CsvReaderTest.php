@@ -11,7 +11,7 @@ class CsvReaderTest extends TestCase
     {
         $chemin = dirname(__DIR__, 2).'/fixtures/unites_minimal.csv';
 
-        $reader = new CsvReader();
+        $reader = new CsvReader;
         $lots = iterator_to_array($reader->lireLots($chemin, 2));
 
         $this->assertCount(1, $lots);
@@ -28,7 +28,7 @@ class CsvReaderTest extends TestCase
         }
         file_put_contents($tmp, $contenu);
 
-        $reader = new CsvReader();
+        $reader = new CsvReader;
         $lots = iterator_to_array($reader->lireLots($tmp, 2));
 
         $this->assertCount(3, $lots); // 2 + 2 + 1

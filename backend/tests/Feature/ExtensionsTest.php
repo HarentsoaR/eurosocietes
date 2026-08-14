@@ -12,7 +12,7 @@ class ExtensionsTest extends TestCase
 
     public function test_postgis_pg_trgm_btree_gist_unaccent_sont_actives(): void
     {
-        $extensions = collect(DB::select("SELECT extname FROM pg_extension"))
+        $extensions = collect(DB::select('SELECT extname FROM pg_extension'))
             ->pluck('extname')
             ->all();
 

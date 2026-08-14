@@ -9,7 +9,6 @@ use App\Models\Historique;
 use App\Models\Import;
 use App\Models\ImportLog;
 use App\Models\Ville;
-use Illuminate\Support\Facades\DB;
 
 class ImportService
 {
@@ -21,9 +20,9 @@ class ImportService
 
     public function __construct(?QualityChecker $qualite = null, ?SireneImporter $sirene = null, ?EtablissementImporter $etablissements = null)
     {
-        $this->qualite = $qualite ?? new QualityChecker();
-        $this->sirene = $sirene ?? new SireneImporter();
-        $this->etablissements = $etablissements ?? new EtablissementImporter();
+        $this->qualite = $qualite ?? new QualityChecker;
+        $this->sirene = $sirene ?? new SireneImporter;
+        $this->etablissements = $etablissements ?? new EtablissementImporter;
     }
 
     /**

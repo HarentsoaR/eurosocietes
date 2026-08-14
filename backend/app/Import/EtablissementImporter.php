@@ -4,9 +4,7 @@ namespace App\Import;
 
 class EtablissementImporter
 {
-    public function __construct(private QualityChecker $qualite = new QualityChecker())
-    {
-    }
+    public function __construct(private QualityChecker $qualite = new QualityChecker) {}
 
     /**
      * @param  array<string, string>  $ligne

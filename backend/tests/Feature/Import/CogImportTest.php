@@ -26,7 +26,7 @@ class CogImportTest extends TestCase
 
     public function test_importe_les_communes_et_codes_postaux(): void
     {
-        $importer = new CogImporter();
+        $importer = new CogImporter;
 
         $stats = $importer->importer(
             dirname(__DIR__, 2).'/fixtures/cog_communes.csv',
@@ -45,7 +45,7 @@ class CogImportTest extends TestCase
 
     public function test_reimport_est_idempotent(): void
     {
-        $importer = new CogImporter();
+        $importer = new CogImporter;
         $chemin = dirname(__DIR__, 2).'/fixtures/cog_communes.csv';
 
         $importer->importer($chemin, dirname(__DIR__, 2).'/fixtures/cog_geofla.csv');

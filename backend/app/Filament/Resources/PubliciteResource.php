@@ -19,6 +19,8 @@ class PubliciteResource extends Resource
 
     protected static ?string $navigationLabel = 'Publicités';
 
+    protected static ?string $navigationGroup = 'Monétisation';
+
     protected static ?string $modelLabel = 'publicité';
 
     protected static ?string $pluralModelLabel = 'publicités';

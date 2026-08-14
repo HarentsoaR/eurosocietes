@@ -19,6 +19,8 @@ class PasseportResource extends Resource
 
     protected static ?string $navigationLabel = 'Passeports';
 
+    protected static ?string $navigationGroup = 'Monétisation';
+
     protected static ?string $modelLabel = 'passeport';
 
     protected static ?string $pluralModelLabel = 'passeports';

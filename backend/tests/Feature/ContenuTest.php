@@ -7,6 +7,7 @@ use App\Models\Document;
 use App\Models\Entreprise;
 use App\Models\Faq;
 use App\Models\Passeport;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -62,7 +63,7 @@ class ContenuTest extends TestCase
         $this->assertTrue($entreprise->passeport->is($passeport));
         $this->assertSame(['coordonnees_validees', 'avis_verifies'], $passeport->badges);
 
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
         Passeport::create(['entreprise_id' => $entreprise->id, 'statut' => 'non_soumis', 'badges' => []]);
     }
 }

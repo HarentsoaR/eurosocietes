@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Notifications\ApiResetPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
@@ -33,7 +35,7 @@ class PasswordResetTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonPath('message', __('passwords.sent'));
 
-        Notification::assertSentTo($user, \App\Notifications\ApiResetPasswordNotification::class);
+        Notification::assertSentTo($user, ApiResetPasswordNotification::class);
     }
 
     public function test_forgot_password_does_not_leak_whether_email_exists(): void
@@ -65,7 +67,7 @@ class PasswordResetTest extends TestCase
             ->assertJsonPath('message', __('passwords.reset'));
 
         $this->assertTrue(
-            \Illuminate\Support\Facades\Hash::check('N3w!Str0ngPassw0rd', $user->fresh()->password)
+            Hash::check('N3w!Str0ngPassw0rd', $user->fresh()->password)
         );
 
         $this->app['auth']->forgetGuards();

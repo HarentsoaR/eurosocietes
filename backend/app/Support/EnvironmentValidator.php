@@ -81,7 +81,7 @@ class EnvironmentValidator
 
             throw new RuntimeException(
                 "Configuration incomplete. Missing required configuration values: {$keys}. "
-                . 'Set them in your .env file before starting the application.'
+                .'Set them in your .env file before starting the application.'
             );
         }
     }

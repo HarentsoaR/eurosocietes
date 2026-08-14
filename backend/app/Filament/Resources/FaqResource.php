@@ -21,6 +21,8 @@ class FaqResource extends Resource
 
     protected static ?string $navigationLabel = 'Foire aux questions';
 
+    protected static ?string $navigationGroup = 'Contenus';
+
     protected static ?string $modelLabel = 'question';
 
     protected static ?string $pluralModelLabel = 'questions';

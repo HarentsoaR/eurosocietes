@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\ActiviteNaf;
 use App\Models\Specialite;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -32,7 +33,7 @@ class ReferentielActiviteTest extends TestCase
 
     public function test_specialite_unique(): void
     {
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         Specialite::create(['libelle' => 'Cuisine lyonnaise', 'slug' => 'cuisine-lyonnaise', 'description' => null]);
         Specialite::create(['libelle' => 'Cuisine lyonnaise', 'slug' => 'cuisine-lyonnaise-2', 'description' => null]);

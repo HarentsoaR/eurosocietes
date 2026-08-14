@@ -26,7 +26,7 @@ class GeocoderApplyTest extends TestCase
 
         $entreprise = Entreprise::create(['siren' => '356000000', 'denomination' => 'Boulangerie Paul', 'slug' => 'boulangerie-paul', 'etat_administratif' => 'A', 'ville_id' => $ville->id, 'visible' => true]);
 
-        $geocoder = new Geocoder();
+        $geocoder = new Geocoder;
         $geocoder->appliquerFallback($ville->id, entrepriseId: $entreprise->id);
 
         $coordonnees = DB::table('entreprises')

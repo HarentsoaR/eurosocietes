@@ -18,6 +18,8 @@ class AbonnementResource extends Resource
 
     protected static ?string $navigationLabel = 'Abonnements';
 
+    protected static ?string $navigationGroup = 'Monétisation';
+
     protected static ?string $modelLabel = 'abonnement';
 
     protected static ?string $pluralModelLabel = 'abonnements';

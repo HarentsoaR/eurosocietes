@@ -2,11 +2,16 @@
 
 namespace App\Providers;
 
+use App\Exceptions\Handler;
+use App\Models\Entreprise;
+use App\Policies\Api\EntreprisePolicy;
 use App\Support\EnvironmentValidator;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
@@ -17,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(ExceptionHandler::class, \App\Exceptions\Handler::class);
+        $this->app->singleton(ExceptionHandler::class, Handler::class);
     }
 
     /**
@@ -26,12 +31,20 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimits();
+        $this->registerApiBindings();
 
         if ($this->app->runningInConsole()) {
             return;
         }
 
         EnvironmentValidator::validate();
+    }
+
+    protected function registerApiBindings(): void
+    {
+        Gate::policy(Entreprise::class, EntreprisePolicy::class);
+
+        Route::bind('entreprise', fn (string $value): Entreprise => Entreprise::where('siren', $value)->firstOrFail());
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Enums\Permission;
 use App\Enums\Role;
 use App\Models\User;
+use App\Notifications\ApiResetPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -348,7 +349,7 @@ class ApiEndpointsTest extends TestCase
             ->assertJsonPath('message', __('passwords.sent'));
 
         $this->assertDatabaseHas('password_reset_tokens', ['email' => $user->email]);
-        Notification::assertSentTo($user, \App\Notifications\ApiResetPasswordNotification::class);
+        Notification::assertSentTo($user, ApiResetPasswordNotification::class);
     }
 
     public function test_forgot_returns_same_message_for_unknown_email(): void

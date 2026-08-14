@@ -36,7 +36,7 @@ class SireneImportTest extends TestCase
     private function importeLignes(array $lignes): array
     {
         $import = Import::create(['type' => 'sirene_unites', 'statut' => 'processing']);
-        $service = new ImportService();
+        $service = new ImportService;
 
         return $service->importerUnites($lignes, $import);
     }
@@ -72,7 +72,7 @@ class SireneImportTest extends TestCase
         $this->assertSame(1, Entreprise::count());
     }
 
-    public function test_radiee_passe_en_etat_C_et_soft_delete(): void
+    public function test_radiee_passe_en_etat_c_et_soft_delete(): void
     {
         $lignes = [
             ['siren' => '356000026', 'denominationUniteLegale' => 'Societe Radiee', 'nomUniteLegale' => '', 'prenom1UniteLegale' => '', 'etatAdministratifUniteLegale' => 'C', 'activitePrincipaleUniteLegale' => '56.10A', 'codePostalUniteLegale' => '75001', 'libelleCommuneUniteLegale' => 'Paris', 'codeCommuneUniteLegale' => '75056'],
